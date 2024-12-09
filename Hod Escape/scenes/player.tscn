@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbphjw3dgidjy"]
+
+[ext_resource type="Texture2D" uid="uid://cevqunp2l761s" path="res://assets/new_assets/hod_jump.png" id="1_v2nxs"]
+[ext_resource type="Texture2D" uid="uid://clnsihqrdlwfo" path="res://assets/new_assets/hod_idle_1.png" id="2_lmlqy"]
+[ext_resource type="Texture2D" uid="uid://cvqn5lh8h8c7e" path="res://assets/new_assets/hod_idle_2.png" id="3_g5nfd"]
+[ext_resource type="AudioStream" uid="uid://58malkjki5mm" path="res://assets/sounds/jump.mp3" id="4_nqcjm"]
+[ext_resource type="AudioStream" uid="uid://dt8tmlkexyp2m" path="res://assets/sounds/player_death.wav" id="5_4ols6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1s32"]
+size = Vector2(6, 4)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n5wql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v2nxs")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lmlqy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g5nfd")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+position = Vector2(0, -4)
+collision_mask = 6
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_e1s32")
+
+[node name="anim" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_n5wql")
+animation = &"idle"
+
+[node name="jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_nqcjm")
+volume_db = -5.0
+
+[node name="death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_4ols6")
+volume_db = -5.0

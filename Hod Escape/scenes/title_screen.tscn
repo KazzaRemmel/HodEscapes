@@ -1,0 +1,124 @@
+[gd_scene load_steps=13 format=3 uid="uid://ykm63eqcukq0"]
+
+[ext_resource type="Script" path="res://scripts/title_screen.gd" id="1_x8dek"]
+[ext_resource type="Texture2D" uid="uid://dno503s4ksxuk" path="res://assets/buttons/btn_play-normal.png" id="2_5q3w2"]
+[ext_resource type="PackedScene" uid="uid://cbphjw3dgidjy" path="res://scenes/player.tscn" id="2_s3wk5"]
+[ext_resource type="Texture2D" uid="uid://ckxyugb0sa0qa" path="res://assets/new_assets/logo.png" id="2_sr3cu"]
+[ext_resource type="Script" path="res://scripts/player_in_title.gd" id="3_4aipd"]
+[ext_resource type="Texture2D" uid="uid://d0yd1ap63ik4d" path="res://assets/buttons/btn_play-pressed.png" id="3_6n41n"]
+[ext_resource type="Texture2D" uid="uid://c4fciiyd2v6oj" path="res://assets/buttons/btn_quit-normal.png" id="4_1hmtd"]
+[ext_resource type="Texture2D" uid="uid://460vk5d2yud2" path="res://assets/buttons/btn_quit-pressed.png" id="5_dm1rv"]
+[ext_resource type="FontFile" uid="uid://clgq2ycpg0126" path="res://assets/fonts/PixelOperator8.ttf" id="6_ohoe0"]
+[ext_resource type="PackedScene" uid="uid://pbkfgpubifjj" path="res://scenes/bg.tscn" id="8_fyi4c"]
+[ext_resource type="PackedScene" uid="uid://do2rry4mpke44" path="res://scenes/city_bg.tscn" id="9_kqin6"]
+[ext_resource type="AudioStream" uid="uid://dbgvk02w2bh5h" path="res://assets/start_track.mp3" id="10_w7261"]
+
+[node name="title-screen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_x8dek")
+
+[node name="main" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 320.0
+
+[node name="game-title" type="TextureRect" parent="main"]
+modulate = Color(1, 0.796078, 0, 1)
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("2_sr3cu")
+expand_mode = 5
+
+[node name="Copyright" type="Label" parent="main"]
+modulate = Color(0.697578, 0.697578, 0.697578, 1)
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_ohoe0")
+theme_override_font_sizes/font_size = 8
+text = "TarnishedMakeGames©"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="CenterContainer" type="CenterContainer" parent="main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Player" parent="main/CenterContainer" instance=ExtResource("2_s3wk5")]
+position = Vector2(85, 61)
+scale = Vector2(8, 8)
+script = ExtResource("3_4aipd")
+
+[node name="HSeparator" type="HSeparator" parent="main"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="buttons" type="HBoxContainer" parent="main"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Container" type="CenterContainer" parent="main/buttons"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="start-btn" type="TouchScreenButton" parent="main/buttons/Container"]
+texture_normal = ExtResource("2_5q3w2")
+texture_pressed = ExtResource("3_6n41n")
+
+[node name="Label" type="Label" parent="main/buttons/Container/start-btn"]
+offset_left = -4.0
+offset_top = 39.0
+offset_right = 36.0
+offset_bottom = 62.0
+theme_override_fonts/font = ExtResource("6_ohoe0")
+theme_override_font_sizes/font_size = 8
+text = "Play"
+horizontal_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="main/buttons"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Container2" type="CenterContainer" parent="main/buttons"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="quit-btn" type="TouchScreenButton" parent="main/buttons/Container2"]
+position = Vector2(-37, 0)
+texture_normal = ExtResource("4_1hmtd")
+texture_pressed = ExtResource("5_dm1rv")
+
+[node name="Label" type="Label" parent="main/buttons/Container2/quit-btn"]
+offset_left = -4.0
+offset_top = 39.0
+offset_right = 36.0
+offset_bottom = 62.0
+theme_override_fonts/font = ExtResource("6_ohoe0")
+theme_override_font_sizes/font_size = 8
+text = "Quit"
+horizontal_alignment = 1
+
+[node name="highscore" type="Label" parent="main"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_ohoe0")
+theme_override_font_sizes/font_size = 16
+text = "HIGHSCORE:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CityBG" parent="." instance=ExtResource("9_kqin6")]
+
+[node name="BG" parent="." instance=ExtResource("8_fyi4c")]
+visible = false
+
+[node name="bg_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_w7261")
+volume_db = -15.0
+
+[connection signal="pressed" from="main/buttons/Container/start-btn" to="." method="_on_startbtn_pressed"]
+[connection signal="pressed" from="main/buttons/Container2/quit-btn" to="." method="_on_quitbtn_pressed"]

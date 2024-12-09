@@ -1,0 +1,119 @@
+[gd_scene load_steps=8 format=3 uid="uid://d4gu5hqaed68w"]
+
+[ext_resource type="PackedScene" uid="uid://do2rry4mpke44" path="res://scenes/city_bg.tscn" id="1_77jng"]
+[ext_resource type="Script" path="res://scripts/score_screen.gd" id="1_rxn2p"]
+[ext_resource type="FontFile" uid="uid://m0i2j5fhqf3s" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_jyubi"]
+[ext_resource type="Script" path="res://scripts/ranking_manager.gd" id="3_03mnn"]
+[ext_resource type="FontFile" uid="uid://clgq2ycpg0126" path="res://assets/fonts/PixelOperator8.ttf" id="3_uce0s"]
+[ext_resource type="Script" path="res://scripts/score_total.gd" id="4_sq6g1"]
+[ext_resource type="AudioStream" uid="uid://cp3cskenc5ig4" path="res://assets/score_menu_track.mp3" id="6_lxnd4"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rxn2p")
+
+[node name="CityBG" parent="." instance=ExtResource("1_77jng")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -136.0
+offset_right = 80.0
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="header" type="MarginContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="header_title" type="Label" parent="VBoxContainer/header"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.796078, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_jyubi")
+text = "RANKING"
+horizontal_alignment = 1
+
+[node name="content" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+script = ExtResource("3_03mnn")
+
+[node name="row_container" type="VBoxContainer" parent="VBoxContainer/content"]
+layout_mode = 2
+
+[node name="score_title" type="Label" parent="VBoxContainer/content/row_container"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_uce0s")
+text = "YOUR SCORE"
+horizontal_alignment = 1
+
+[node name="score_total" type="Label" parent="VBoxContainer/content/row_container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_uce0s")
+horizontal_alignment = 1
+script = ExtResource("4_sq6g1")
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/content/row_container"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="name_input" type="LineEdit" parent="VBoxContainer/content/row_container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_uce0s")
+placeholder_text = "YOUR NAME"
+alignment = 1
+max_length = 8
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/content/row_container"]
+layout_mode = 2
+
+[node name="submit_btn" type="Button" parent="VBoxContainer/content/row_container"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_jyubi")
+theme_override_font_sizes/font_size = 16
+text = "SUBMIT"
+
+[node name="alert" type="Label" parent="VBoxContainer/content/row_container"]
+visible = false
+modulate = Color(1, 0.796078, 0, 1)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_uce0s")
+theme_override_font_sizes/font_size = 8
+text = "PLEASE TYPE YOUR NAME"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="footer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="retry_btn" type="Button" parent="VBoxContainer/footer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_jyubi")
+text = "RETRY"
+
+[node name="bg_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_lxnd4")
+volume_db = -8.0
+
+[connection signal="focus_entered" from="VBoxContainer/content/row_container/name_input" to="VBoxContainer/content" method="_on_name_input_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/content/row_container/submit_btn" to="VBoxContainer/content" method="_on_submit_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/footer/retry_btn" to="VBoxContainer/content" method="_on_retry_btn_pressed"]

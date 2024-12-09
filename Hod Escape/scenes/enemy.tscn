@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyy11s75eqhcb"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_obo8d"]
+[ext_resource type="Texture2D" uid="uid://f7euimhsvtn1" path="res://assets/new_assets/enemy_3.png" id="2_ituej"]
+[ext_resource type="Texture2D" uid="uid://cai2uxpo63whp" path="res://assets/new_assets/enemy_4.png" id="3_eq7xl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rgfrt"]
+size = Vector2(6, 7)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7c4ut"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ituej")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_eq7xl")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wpe7j"]
+size = Vector2(6, 5)
+
+[node name="enemy" type="StaticBody2D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_obo8d")
+jump_force = 1.0
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_rgfrt")
+one_way_collision = true
+
+[node name="anim" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7c4ut")
+animation = &"moving"
+frame = 1
+frame_progress = 1.0
+
+[node name="hitbox" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="collision" type="CollisionShape2D" parent="hitbox"]
+modulate = Color(0.91248, 0.455567, 0.226611, 1)
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_wpe7j")
+
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
